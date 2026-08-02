@@ -1,0 +1,1164 @@
+:root {
+    --background-color: #f4f6f8;
+    --surface-color: #ffffff;
+    --chart-background: #f2f5f7;
+
+    --text-color: #182432;
+    --muted-text-color: #596878;
+    --light-text-color: #73808d;
+
+    --border-color: #d6dde4;
+    --grid-color: #dfe5ea;
+
+    --accent-color: #a91f24;
+    --accent-dark-color: #7f171b;
+    --accent-light-color: #f5dddd;
+
+    --timeline-color: #07558a;
+    --inactive-wave-color: #91a8ba;
+
+    --button-disabled-color: #abb5bf;
+    --missing-data-color: #e8ebee;
+}
+
+/*
+ * Apply border-box sizing so padding and borders do not unexpectedly
+ * increase an element's displayed width.
+ */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    color: var(--text-color);
+    background-color: var(--background-color);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+button,
+a {
+    font: inherit;
+}
+
+button {
+    touch-action: manipulation;
+}
+
+/*
+ * Main page wrapper
+ */
+.page {
+    width: min(1380px, 96%);
+    margin: 0 auto;
+    padding: 32px 0 48px;
+}
+
+/*
+ * Overall project heading
+ */
+.site-header {
+    max-width: 1050px;
+    margin-bottom: 28px;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+
+    color: var(--accent-color);
+
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.site-header h1 {
+    margin: 0;
+
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.06;
+}
+
+.introduction {
+    max-width: 880px;
+    margin: 16px 0 0;
+
+    color: var(--muted-text-color);
+
+    font-size: 1.08rem;
+    line-height: 1.58;
+}
+
+/*
+ * Main narrative scene container
+ */
+.scene {
+    overflow: visible;
+
+    padding: 24px;
+
+    background-color: var(--surface-color);
+
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+/*
+ * Stable two-column scene template:
+ * explanatory text on the left and visualizations on the right.
+ */
+.scene-layout {
+    display: grid;
+
+    grid-template-columns:
+        285px
+        minmax(0, 1fr);
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+/*
+ * Story column
+ */
+.story-panel {
+    min-width: 0;
+
+    padding: 16px 20px 20px 4px;
+
+    border-right:
+        1px solid
+        var(--border-color);
+}
+
+#story-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#story-content.story-exit {
+    opacity: 0;
+    transform: translateY(8px);
+
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+}
+
+#story-content.story-enter {
+    animation:
+        story-enter
+        480ms
+        ease
+        both;
+}
+
+@keyframes story-enter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scene-number {
+    margin: 0 0 10px;
+
+    color: var(--accent-color);
+
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.story-panel h2 {
+    margin: 0;
+
+    font-size:
+        clamp(
+            1.45rem,
+            2.2vw,
+            2rem
+        );
+
+    line-height: 1.15;
+}
+
+.scene-summary {
+    margin: 16px 0 0;
+
+    color: var(--muted-text-color);
+
+    font-size: 1rem;
+    line-height: 1.58;
+}
+
+.context-block,
+.purpose-block {
+    margin-top: 28px;
+}
+
+.context-block {
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        var(--border-color);
+}
+
+.purpose-block {
+    padding: 16px;
+
+    background-color: #f7f0f0;
+
+    border-left:
+        4px solid
+        var(--accent-color);
+}
+
+.context-block h3,
+.purpose-block h3 {
+    margin: 0 0 8px;
+
+    font-size: 1rem;
+}
+
+.context-block p,
+.purpose-block p {
+    margin: 0;
+
+    color: var(--muted-text-color);
+
+    font-size: 0.93rem;
+    line-height: 1.52;
+}
+
+.interaction-instructions {
+    margin: 28px 0 0;
+
+    color: var(--light-text-color);
+
+    font-size: 0.87rem;
+    font-style: italic;
+    line-height: 1.45;
+}
+
+/*
+ * Visualization column
+ *
+ * Rows use automatic height so the annotation panels can sit beneath
+ * their corresponding SVG without being clipped.
+ */
+.visualization-column {
+    display: grid;
+
+    grid-template-rows:
+        auto
+        auto;
+
+    gap: 18px;
+
+    min-width: 0;
+}
+
+/*
+ * General chart card
+ *
+ * overflow must remain visible because the chart annotation panels are
+ * regular HTML elements placed after each SVG.
+ */
+.chart-panel {
+    display: flex;
+    min-width: 0;
+    margin: 0;
+
+    flex-direction: column;
+
+    overflow: visible;
+
+    background-color: var(--chart-background);
+
+    border:
+        1px solid
+        var(--border-color);
+}
+
+/*
+ * Chart headings and legends
+ */
+.panel-heading {
+    display: flex;
+
+    min-height: 64px;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 12px 18px;
+
+    background-color: var(--surface-color);
+
+    border-bottom:
+        1px solid
+        var(--border-color);
+}
+
+.panel-heading h3 {
+    margin: 0;
+
+    font-size: 1rem;
+}
+
+.panel-heading p {
+    margin: 4px 0 0;
+
+    color: var(--muted-text-color);
+
+    font-size: 0.82rem;
+}
+
+.active-wave-label {
+    max-width: 260px;
+
+    margin-left: auto !important;
+
+    color:
+        var(--accent-color)
+        !important;
+
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: right;
+}
+
+.map-heading {
+    min-height: 72px;
+}
+
+/*
+ * Timeline SVG
+ */
+#timeline {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    aspect-ratio: 760 / 390;
+
+    background-color:
+        var(--chart-background);
+}
+
+/*
+ * Map SVG
+ */
+#map {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    aspect-ratio: 975 / 610;
+
+    background-color:
+        var(--chart-background);
+}
+
+/*
+ * HTML annotation panels beneath the visualizations
+ *
+ * These panels replace long SVG annotation paragraphs. Because they are
+ * ordinary HTML below the SVG, they cannot cover chart marks or states.
+ */
+.chart-annotation-panel {
+    display: grid;
+
+    grid-template-columns:
+        14px
+        minmax(0, 1fr);
+
+    column-gap: 11px;
+
+    align-items: start;
+
+    width: 100%;
+    min-height: 94px;
+
+    padding:
+        14px
+        18px
+        16px;
+
+    color: var(--text-color);
+    background-color: var(--surface-color);
+
+    border-top:
+        1px solid
+        var(--border-color);
+}
+
+/*
+ * The JavaScript inserts the circular narrative marker as the first span.
+ */
+.chart-annotation-panel > span:first-child {
+    display: block;
+
+    width: 11px;
+    height: 11px;
+
+    margin-top: 4px;
+
+    background-color:
+        var(--accent-color);
+
+    border-radius: 50%;
+}
+
+.chart-annotation-panel > div {
+    min-width: 0;
+}
+
+.chart-annotation-panel p:first-child {
+    margin: 0 0 5px;
+
+    color: var(--text-color);
+
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.chart-annotation-panel p:last-child {
+    margin: 0;
+
+    color: var(--muted-text-color);
+
+    font-size: 0.88rem;
+    line-height: 1.48;
+}
+
+.timeline-annotation-panel,
+.map-annotation-panel {
+    position: relative;
+
+    width: 100%;
+}
+
+/*
+ * Legend
+ */
+.legend {
+    width: 245px;
+    flex: 0 0 245px;
+}
+
+.legend-title {
+    margin: 0 0 6px !important;
+
+    color: var(--text-color) !important;
+
+    font-size: 0.75rem !important;
+    font-weight: 700;
+}
+
+.legend-gradient {
+    width: 100%;
+    height: 12px;
+
+    border:
+        1px solid
+        rgba(31, 42, 52, 0.18);
+
+    background:
+        linear-gradient(
+            to right,
+            #fff5eb,
+            #fee6ce,
+            #fdd0a2,
+            #fdae6b,
+            #fd8d3c,
+            #e6550d,
+            #a63603
+        );
+}
+
+.legend-ticks {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 3px;
+
+    color: var(--muted-text-color);
+
+    font-size: 0.67rem;
+}
+
+/*
+ * Timeline marks
+ */
+.timeline-line {
+    fill: none;
+
+    stroke: var(--timeline-color);
+    stroke-width: 3;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.timeline-area {
+    fill:
+        rgba(
+            7,
+            85,
+            138,
+            0.08
+        );
+}
+
+.timeline-future-line {
+    fill: none;
+
+    stroke: #b8c5cf;
+    stroke-width: 1.5;
+
+    stroke-dasharray: 4 4;
+
+    opacity: 0.7;
+}
+
+.active-wave-window {
+    fill:
+        rgba(
+            169,
+            31,
+            36,
+            0.10
+        );
+}
+
+.active-wave-rule {
+    stroke: var(--accent-color);
+    stroke-width: 2;
+
+    stroke-dasharray: 5 4;
+}
+
+.wave-marker {
+    fill: var(--surface-color);
+
+    stroke: var(--inactive-wave-color);
+    stroke-width: 2;
+
+    transition:
+        fill 250ms ease,
+        stroke 250ms ease;
+}
+
+.wave-marker.active {
+    fill: var(--accent-color);
+
+    stroke: var(--surface-color);
+    stroke-width: 3;
+}
+
+.wave-marker.unreached {
+    opacity: 0.35;
+}
+
+.wave-marker-label {
+    fill: var(--light-text-color);
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.wave-marker-label.active {
+    fill: var(--accent-color);
+}
+
+.wave-marker-label.unreached {
+    opacity: 0.35;
+}
+
+/*
+ * Short connector lines or emphasis marks can remain inside the SVG,
+ * but paragraphs remain in the HTML annotation panels.
+ */
+.timeline-annotation-line,
+.map-annotation-line {
+    fill: none;
+
+    stroke: #596878;
+    stroke-width: 1.5;
+
+    pointer-events: none;
+}
+
+/*
+ * Axes and grid
+ */
+.axis text {
+    fill: var(--muted-text-color);
+
+    font-size: 12px;
+}
+
+.axis path,
+.axis line {
+    stroke: #9ba7b2;
+}
+
+.grid line {
+    stroke: var(--grid-color);
+}
+
+.grid path {
+    display: none;
+}
+
+.axis-label {
+    fill: var(--text-color);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/*
+ * Map marks
+ */
+.state {
+    cursor: pointer;
+
+    transition:
+        opacity 150ms ease,
+        stroke-width 150ms ease;
+}
+
+.state:hover,
+.state:focus {
+    opacity: 0.78;
+}
+
+.state:focus {
+    outline: none;
+}
+
+.state-boundaries {
+    fill: none;
+
+    stroke: #ffffff;
+    stroke-width: 0.8;
+
+    stroke-linejoin: round;
+
+    pointer-events: none;
+}
+
+.nation-boundary {
+    fill: none;
+
+    stroke: #3e4b57;
+    stroke-width: 1.25;
+
+    pointer-events: none;
+}
+
+.map-emphasis-layer {
+    pointer-events: none;
+}
+
+/*
+ * Remove old SVG annotation text if an obsolete annotation group is
+ * accidentally left in the JavaScript.
+ *
+ * This prevents old d3-annotation paragraphs from appearing over the
+ * chart while still allowing short connector paths to remain visible.
+ */
+.annotation-group text,
+.timeline-annotation-layer text,
+.map-annotation-layer text {
+    display: none;
+}
+
+/*
+ * Tooltip
+ */
+.tooltip {
+    position: fixed;
+    z-index: 50;
+
+    min-width: 220px;
+    max-width: 290px;
+
+    padding: 12px 14px;
+
+    color: #ffffff;
+    background-color:
+        rgba(
+            24,
+            31,
+            39,
+            0.96
+        );
+
+    border-radius: 7px;
+
+    font-size: 0.87rem;
+    line-height: 1.5;
+
+    pointer-events: none;
+}
+
+.tooltip[hidden] {
+    display: none;
+}
+
+.tooltip strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    font-size: 1rem;
+}
+
+.tooltip div + div {
+    margin-top: 1px;
+}
+
+/*
+ * Scene navigation
+ */
+.scene-navigation {
+    margin-top: 22px;
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        var(--border-color);
+}
+
+/*
+ * Numbered scene controls
+ */
+.numbered-navigation {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+    gap: 10px;
+
+    max-width: 820px;
+    margin: 0 auto 18px;
+}
+
+.scene-button {
+    display: flex;
+
+    min-height: 52px;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 8px 12px;
+
+    color: var(--muted-text-color);
+    background-color: #f4f6f8;
+
+    border:
+        1px solid
+        var(--border-color);
+
+    border-radius: 7px;
+
+    cursor: pointer;
+    text-align: left;
+
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
+}
+
+.scene-button:hover {
+    color: var(--accent-color);
+
+    border-color: #c98c8f;
+
+    transform: translateY(-1px);
+}
+
+.scene-button:focus-visible {
+    outline:
+        3px solid
+        rgba(
+            169,
+            31,
+            36,
+            0.25
+        );
+
+    outline-offset: 2px;
+}
+
+.scene-button.active {
+    color: var(--accent-dark-color);
+    background-color: var(--accent-light-color);
+
+    border-color: var(--accent-color);
+}
+
+.scene-button-number {
+    display: inline-flex;
+
+    width: 28px;
+    height: 28px;
+
+    flex: 0 0 28px;
+
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+    background-color: #8794a0;
+
+    border-radius: 50%;
+
+    font-weight: 700;
+}
+
+.scene-button.active
+.scene-button-number {
+    background-color:
+        var(--accent-color);
+}
+
+.scene-button-label {
+    font-size: 0.87rem;
+    font-weight: 700;
+}
+
+/*
+ * Previous and Next controls
+ */
+.previous-next-navigation {
+    display: grid;
+
+    grid-template-columns:
+        145px
+        1fr
+        145px;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.previous-next-navigation > button {
+    min-height: 44px;
+
+    padding: 10px 18px;
+
+    color: #ffffff;
+    background-color: var(--accent-color);
+
+    border: 0;
+    border-radius: 7px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.previous-next-navigation
+> button:hover:not(:disabled) {
+    background-color:
+        var(--accent-dark-color);
+}
+
+.previous-next-navigation
+> button:focus-visible {
+    outline:
+        3px solid
+        rgba(
+            169,
+            31,
+            36,
+            0.28
+        );
+
+    outline-offset: 3px;
+}
+
+.previous-next-navigation
+> button:disabled {
+    background-color:
+        var(--button-disabled-color);
+
+    cursor: not-allowed;
+}
+
+.navigation-status {
+    margin: 0;
+
+    color: var(--muted-text-color);
+
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/*
+ * Footer and sources
+ */
+.site-footer {
+    margin-top: 24px;
+
+    color: var(--muted-text-color);
+
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.site-footer p {
+    margin: 5px 0;
+}
+
+.site-footer a {
+    color: var(--accent-color);
+}
+
+/*
+ * Loading and error messages
+ */
+.loading-message,
+.error-message {
+    font-size: 20px;
+
+    text-anchor: middle;
+}
+
+.loading-message {
+    fill: var(--muted-text-color);
+}
+
+.error-message {
+    fill: var(--accent-color);
+}
+
+/*
+ * Reduced-motion accessibility
+ */
+@media (
+    prefers-reduced-motion:
+    reduce
+) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior:
+            auto !important;
+
+        animation-duration:
+            1ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            1ms !important;
+    }
+}
+
+/*
+ * Medium-width layout
+ */
+@media (
+    max-width: 1050px
+) {
+    .scene-layout {
+        grid-template-columns:
+            235px
+            minmax(0, 1fr);
+    }
+
+    .scene-button-label {
+        font-size: 0.78rem;
+    }
+
+    .active-wave-label {
+        max-width: 200px;
+    }
+}
+
+/*
+ * Mobile and narrow screens
+ */
+@media (
+    max-width: 800px
+) {
+    .page {
+        width: 96%;
+
+        padding-top: 20px;
+    }
+
+    .scene {
+        padding: 16px;
+    }
+
+    .scene-layout {
+        display: block;
+    }
+
+    .story-panel {
+        padding: 8px 4px 22px;
+
+        border-right: 0;
+
+        border-bottom:
+            1px solid
+            var(--border-color);
+    }
+
+    .visualization-column {
+        display: block;
+    }
+
+    .chart-panel {
+        margin-top: 16px;
+    }
+
+    .panel-heading {
+        align-items: flex-start;
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .active-wave-label {
+        max-width: none;
+
+        margin-left: 0 !important;
+
+        text-align: left;
+    }
+
+    .map-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .legend {
+        width:
+            min(
+                245px,
+                100%
+            );
+
+        flex-basis: auto;
+    }
+
+    .chart-annotation-panel {
+        min-height: 0;
+
+        padding:
+            13px
+            14px
+            15px;
+    }
+
+    .numbered-navigation {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+    .previous-next-navigation {
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+    .navigation-status {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    #previous-button {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #next-button {
+        grid-column: 2;
+        grid-row: 2;
+    }
+}
+
+/*
+ * Very narrow screens
+ */
+@media (
+    max-width: 480px
+) {
+    .site-header h1 {
+        font-size: 2rem;
+    }
+
+    .scene {
+        padding: 12px;
+    }
+
+    .numbered-navigation {
+        grid-template-columns: 1fr;
+    }
+
+    .scene-button {
+        min-height: 46px;
+    }
+
+    .previous-next-navigation {
+        gap: 10px;
+    }
+
+    .previous-next-navigation
+    > button {
+        padding:
+            9px
+            10px;
+    }
+
+    .chart-annotation-panel {
+        grid-template-columns:
+            12px
+            minmax(0, 1fr);
+
+        column-gap: 9px;
+    }
+}

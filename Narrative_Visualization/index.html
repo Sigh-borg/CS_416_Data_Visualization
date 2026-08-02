@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>One National Curve, Many Unequal Outbreaks</title>
+
+  <link rel="stylesheet" href="css/styles.css?v=20">
+</head>
+
+<body>
+  <main class="page">
+    <header class="site-header">
+      <p class="eyebrow">
+        A Narrative Visualization
+      </p>
+
+      <h1>
+        One National Curve, Many Unequal Outbreaks
+      </h1>
+
+      <p class="introduction">
+        The national COVID-19 curve suggests one shared sequence of
+        waves. State-level rates reveal a different story: each spike
+        emerged under different conditions and shifted the geographic
+        burden.
+      </p>
+    </header>
+
+    <section class="scene">
+      <div class="scene-layout">
+        <aside class="story-panel">
+          <p
+            id="scene-number"
+            class="scene-number"
+          ></p>
+
+          <h2 id="scene-title"></h2>
+
+          <p
+            id="scene-summary"
+            class="scene-summary"
+          ></p>
+
+          <section class="context-block">
+            <h3>
+              What likely contributed?
+            </h3>
+
+            <p id="scene-context"></p>
+          </section>
+
+          <section class="purpose-block">
+            <h3>
+              What this changes
+            </h3>
+
+            <p id="scene-purpose"></p>
+          </section>
+
+          <p
+            id="interaction-instructions"
+            class="interaction-instructions"
+          ></p>
+        </aside>
+
+        <div class="visualization-column">
+          <figure class="chart-panel">
+            <figcaption class="panel-heading">
+              <div>
+                <h3>
+                  National reported cases over time
+                </h3>
+
+                <p>
+                  Seven-day average of newly reported cases
+                </p>
+              </div>
+
+              <p
+                id="active-wave-label"
+                class="active-wave-label"
+              ></p>
+            </figcaption>
+
+            <svg
+              id="timeline"
+              viewBox="0 0 920 430"
+              role="img"
+              aria-label="National seven-day average of newly reported COVID-19 cases"
+            ></svg>
+          </figure>
+
+          <figure class="chart-panel">
+            <figcaption class="panel-heading">
+              <div>
+                <h3>
+                  Geographic burden at the selected spike
+                </h3>
+
+                <p id="map-date-label"></p>
+              </div>
+
+              <div
+                class="legend"
+                aria-label="Map color legend"
+              >
+                <p class="legend-title">
+                  7-day cases per 100,000
+                </p>
+
+                <div
+                  class="legend-gradient"
+                  aria-hidden="true"
+                ></div>
+
+                <div
+                  id="legend-ticks"
+                  class="legend-ticks"
+                  aria-hidden="true"
+                ></div>
+              </div>
+            </figcaption>
+
+            <svg
+              id="map"
+              viewBox="0 0 1100 620"
+              role="img"
+              aria-label="State COVID-19 cases per 100,000 residents"
+            ></svg>
+          </figure>
+        </div>
+      </div>
+
+      <nav
+        class="scene-navigation"
+        aria-label="Narrative scene navigation"
+      >
+        <div
+          id="numbered-navigation"
+          class="numbered-navigation"
+        ></div>
+
+        <div class="previous-next-navigation">
+          <button
+            id="previous-button"
+            type="button"
+          >
+            ← Previous
+          </button>
+
+          <p
+            id="navigation-status"
+            class="navigation-status"
+            aria-live="polite"
+          ></p>
+
+          <button
+            id="next-button"
+            type="button"
+          >
+            Next →
+          </button>
+        </div>
+      </nav>
+    </section>
+
+    <footer class="site-footer">
+      <p>
+        Case data:
+
+        <a
+          href="https://github.com/nytimes/covid-19-data"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          The New York Times COVID-19 Data
+        </a>.
+
+        Population estimates: U.S. Census Bureau.
+      </p>
+
+      <p>
+        The contextual explanations are cautious because timing alone
+        cannot prove that one factor caused a national spike.
+      </p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+
+  <script src="js/visualization.js?v=20"></script>
+</body>
+</html>
